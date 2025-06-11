@@ -1,0 +1,272 @@
+/* client/src/pages/GamePage.css (for global messages) */
+.game-page .error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 20px auto;
+    width: fit-content;
+    text-align: center;
+}
+
+.game-page .success-message {
+    color: #28a745;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 20px auto;
+    width: fit-content;
+    text-align: center;
+}
+
+/* client/src/components/Game/FolderGrid.css */
+.folder-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+.folder-item {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px; /* Ensure consistent height */
+}
+
+.folder-icon {
+    font-size: 3em; /* Larger icons */
+    margin-bottom: 10px;
+}
+
+.folder-item h3 {
+    color: #333;
+    font-size: 1.4em;
+    margin-bottom: 8px;
+}
+
+.folder-item p {
+    color: #666;
+    font-size: 0.95em;
+    margin: 0;
+}
+
+/* Styles for unlocked (completed) folders */
+.folder-item.unlocked {
+    background-color: #d4edda; /* Light green */
+    border-color: #28a745; /* Green border */
+    color: #155724;
+}
+.folder-item.unlocked .folder-icon {
+    color: #28a745;
+}
+.folder-item.unlocked p {
+    color: #155724;
+    font-weight: bold;
+}
+
+/* Styles for active puzzles (accessible but not yet solved) */
+.folder-item.active-puzzle {
+    background-color: #e2f0fb; /* Light blue */
+    border-color: #007bff; /* Blue border */
+    cursor: pointer;
+}
+.folder-item.active-puzzle:hover {
+    background-color: #cce7ff;
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+.folder-item.active-puzzle .folder-icon {
+    color: #007bff;
+}
+.folder-item.active-puzzle .folder-status {
+    color: #007bff;
+}
+
+/* Styles for locked folders (unmet dependencies) */
+.folder-item.locked {
+    background-color: #f8d7da; /* Light red/pink */
+    border-color: #dc3545; /* Red border */
+    color: #721c24;
+    filter: grayscale(80%); /* Make it look disabled */
+    opacity: 0.7;
+    cursor: not-allowed !important; /* Override pointer cursor */
+}
+.folder-item.locked h3,
+.folder-item.locked p {
+    color: #721c24;
+}
+.folder-item.locked .folder-icon {
+    color: #dc3545;
+}
+.folder-item.locked .folder-dependency-info {
+    font-size: 0.85em;
+    margin-top: 5px;
+    line-height: 1.2;
+}
+
+/* Base styles for clickable/unclickable states */
+.folder-item.clickable {
+    cursor: pointer;
+}
+.folder-item.unclickable {
+    cursor: not-allowed;
+}
+
+/* client/src/components/Game/RiddleModal.css */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.modal-close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.8em;
+    cursor: pointer;
+    color: #555;
+}
+
+.modal-content h2 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.riddle-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.modal-content label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #444;
+}
+
+.modal-content input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.modal-content button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-content button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.riddle-hints {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.riddle-hints h4 {
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.riddle-hints ul {
+    list-style: none;
+    padding: 0;
+}
+
+.riddle-hints li {
+    background-color: #f9f9f9;
+    border: 1px dashed #e0e0e0;
+    padding: 8px 12px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    color: #777;
+    font-size: 0.95em;
+}
+
+/* Styles for feedback messages in modal */
+.input-error-message {
+    color: #dc3545;
+    font-size: 0.9em;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.attempt-feedback {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.attempt-feedback.incorrect {
+    background-color: #f8d7da;
+    color: #dc3545;
+    border: 1px solid #f5c6cb;
+}
+
+.attempt-feedback.correct {
+    background-color: #d4edda;
+    color: #28a745;
+    border: 1px solid #c3e6cb;
+}
+
+.attempt-feedback.error {
+    background-color: #ffeeba;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}

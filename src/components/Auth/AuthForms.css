@@ -1,0 +1,183 @@
+/* General container for auth pages */
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Full viewport height */
+    background-color: #f0f2f5; /* Light grey background */
+    padding: 20px;
+    box-sizing: border-box; /* Include padding in element's total width and height */
+}
+
+/* Card-like container for the form */
+.auth-card {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* Max width for readability */
+    box-sizing: border-box;
+    position: relative; /* Needed for positioning toasts if they are children */
+    overflow: hidden; /* Prevent toast overflow if animated within */
+}
+
+/* Heading styles */
+.auth-card h2 {
+    font-size: 2.2rem;
+    color: #333;
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 700;
+}
+
+/* Form layout */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between form elements */
+}
+
+/* Label styles */
+.auth-form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* Input styles */
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box; /* Important for full width */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-form input[type="text"]:focus,
+.auth-form input[type="email"]:focus,
+.auth-form input[type="password"]:focus {
+    border-color: #007bff; /* Blue focus border */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Light blue glow */
+    outline: none; /* Remove default outline */
+}
+
+/* Button styles */
+.auth-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff; /* Primary blue */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.auth-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+.auth-button:active {
+    transform: translateY(0);
+}
+
+/* Link styles (e.g., "Sign Up" or "Login" link) */
+.auth-link {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.auth-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Message Box Styles (for general info/errors within form structure, if you keep them) */
+/* (Keeping these for fallback or specific inline messages, though Toast will be primary) */
+.message-box {
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.message-box.error {
+    background-color: #f8d7da; /* Light red */
+    color: #721c24; /* Dark red text */
+    border: 1px solid #f5c6cb;
+}
+
+.message-box.success {
+    background-color: #d4edda; /* Light green */
+    color: #155724; /* Dark green text */
+    border: 1px solid #c3e6cb;
+}
+
+/* Toast Message Styles */
+.toast-message {
+    position: absolute; /* Position relative to .auth-card or body */
+    top: 20px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    z-index: 1000; /* Ensure it's on top */
+    animation: slideInFromTop 0.4s ease-out forwards, fadeOut 0.5s ease-in forwards 4.5s; /* 5s duration - 0.5s fadeOut */
+    white-space: nowrap; /* Prevent text wrapping */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.toast-message.success {
+    background-color: #28a745; /* Green */
+    color: white;
+}
+
+.toast-message.error {
+    background-color: #dc3545; /* Red */
+    color: white;
+}
+
+.toast-message.info {
+    background-color: #17a2b8; /* Blue-gray */
+    color: white;
+}
+
+/* Toast Animations */
+@keyframes slideInFromTop {
+    from {
+        top: -50px;
+        opacity: 0;
+    }
+    to {
+        top: 20px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
