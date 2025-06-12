@@ -128,3 +128,71 @@
 .leaderboard-table td:first-child {
     font-weight: bold;
 }
+
+/* ========================= */
+/* 📱 Responsive Styling */
+/* ========================= */
+
+@media (max-width: 768px) {
+    .admin-dashboard {
+        padding: 20px 15px;
+        margin: 20px 10px;
+    }
+
+    .admin-dashboard h1 {
+        font-size: 2em;
+    }
+
+    .admin-tabs {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .admin-tabs button {
+        width: 100%;
+        text-align: center;
+        font-size: 1em;
+        padding: 12px;
+        border-bottom: 2px solid #ddd;
+    }
+
+    .tab-content {
+        padding: 20px 15px;
+    }
+
+    .user-table, .leaderboard-table {
+        font-size: 0.9em;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .user-table th, .leaderboard-table th,
+    .user-table td, .leaderboard-table td {
+        padding: 10px;
+    }
+
+    .btn-make-admin,
+    .btn-remove-admin {
+        padding: 6px 10px;
+        font-size: 0.85em;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-dashboard h1 {
+        font-size: 1.7em;
+    }
+
+    .admin-tabs button {
+        font-size: 0.95em;
+    }
+
+    .btn-make-admin,
+    .btn-remove-admin {
+        width: 100%;
+        padding: 10px;
+        font-size: 0.9em;
+    }
+}

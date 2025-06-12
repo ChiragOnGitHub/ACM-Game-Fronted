@@ -35,18 +35,6 @@ function HomePage() {
                     </>
                 )}
             </section>
-
-            <section className="home-info">
-                <h2>How to Play</h2>
-                <p>
-                    Navigate through a series of locked folders, each containing a unique riddle.
-                    Solve the riddles to unlock new folders and progress through the game.
-                    Some folders might depend on others, so choose your path wisely!
-                </p>
-                <p>
-                    Compete with other players on the leaderboard and see who can unlock all the secrets first!
-                </p>
-            </section>
         </div>
     );
 }

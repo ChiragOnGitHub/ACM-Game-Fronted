@@ -7,7 +7,8 @@ function RiddleModal({
   onSubmitAnswer,
   folderId,
   lastAttemptStatus,
-  showFinalSuccess
+  showFinalSuccess,
+  submittingAnswer
 }) {
   const [answer, setAnswer] = useState('');
   const [inputError, setInputError] = useState('');
@@ -71,7 +72,9 @@ function RiddleModal({
                   required
                 />
               </div>
-              <button type="submit">Submit Answer</button>
+              <button type="submit" disabled={submittingAnswer}>
+                    {submittingAnswer ? 'Submitting...' : 'Submit Answer'}
+                </button>
             </form>
 
             {riddle.hints && riddle.hints.length > 0 && (

@@ -11,11 +11,12 @@ function GamePage() {
     const [currentRiddle, setCurrentRiddle] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [loadingFolder, setLoadingFolder] = useState(false); // ✅ new
+    const [submittingAnswer, setSubmittingAnswer] = useState(false); // ✅ new
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
     const [lastAttemptStatus, setLastAttemptStatus] = useState(null);
     const [showFinalSuccess, setShowFinalSuccess] = useState(false);
-
 
     useEffect(() => {
         fetchInitialGameData();
@@ -32,7 +33,11 @@ function GamePage() {
             setFolders(allGameFolders);
 
             const userGameState = await getGameState();
-            const unlockedIds = userGameState.unlockedFolders.map(uf => uf.folderId._id);
+            // const unlockedIds = userGameState.unlockedFolders.map(uf => uf.folderId._id);
+            const unlockedIds = userGameState.unlockedFolders
+            .filter(uf => uf.currentRiddleAttempt === null)
+            .map(uf => uf.folderId._id);
+            console.log(unlockedIds);
             setUnlockedFolderIds(unlockedIds);
 
             setLoading(false);
@@ -49,15 +54,12 @@ function GamePage() {
     };
 
     const handleFolderClick = async (folderId) => {
+        if (loadingFolder) return; // ✅ block repeated clicks
         const folderToOpen = folders.find(f => f._id === folderId);
         if (!folderToOpen) {
             setError('Folder not found.');
             return;
         }
-
-        setError('');
-        setMessage('');
-        setLastAttemptStatus(null);
 
         const isAccessible = isFolderAccessible(folderToOpen);
         if (!isAccessible) {
@@ -65,8 +67,11 @@ function GamePage() {
             return;
         }
 
+        setLoadingFolder(true); // ✅ start loading
+        setError('');
+        setMessage('');
+        setLastAttemptStatus(null);
         setSelectedFolder(folderId);
-        setIsModalOpen(true);
 
         try {
             const { riddle, isUnlocked } = await getFolderDetails(folderId);
@@ -76,18 +81,15 @@ function GamePage() {
                 setIsModalOpen(false);
                 setSelectedFolder(null);
                 setCurrentRiddle(null);
-                return;
-            }
-
-            if (riddle) {
+            } else if (riddle) {
                 setCurrentRiddle(riddle);
+                setIsModalOpen(true);
             } else {
                 setError('No riddle found.');
                 setIsModalOpen(false);
                 setSelectedFolder(null);
                 setCurrentRiddle(null);
             }
-
         } catch (err) {
             console.error('Error fetching folder details:', err);
             setError(err.response?.data?.message || 'Failed to load folder details.');
@@ -95,9 +97,12 @@ function GamePage() {
             setIsModalOpen(false);
             setCurrentRiddle(null);
         }
+        setLoadingFolder(false); // ✅ end loading
     };
 
     const handleAnswerSubmit = async (folderId, answer) => {
+        if (submittingAnswer) return;
+        setSubmittingAnswer(true); // ✅ block resubmit
         setError('');
         setMessage('');
         setLastAttemptStatus(null);
@@ -110,17 +115,17 @@ function GamePage() {
                 setLastAttemptStatus('folderUnlocked');
                 setShowFinalSuccess(true);
 
-                setTimeout(() => {
+                setTimeout(async () => {
                     closeModal();
-                }, 1000);
+                    await fetchInitialGameData();
+                }, 1200); // ✅ allow animation to play before refreshing
 
-                await fetchInitialGameData();
                 return 'folder-unlocked';
             } else if (result.nextRiddle) {
                 setMessage(result.message || 'Correct! Next part...');
                 setLastAttemptStatus('nested-correct');
                 setCurrentRiddle(result.nextRiddle);
-                return 'nested-correct';  // ✅ Tell RiddleModal what to show
+                return 'nested-correct';
             } else {
                 return 'incorrect';
             }
@@ -134,9 +139,10 @@ function GamePage() {
                 setLastAttemptStatus('error');
                 return 'error';
             }
+        } finally {
+            setSubmittingAnswer(false); // ✅ done
         }
     };
-
 
     const closeModal = () => {
         setIsModalOpen(false);
@@ -148,10 +154,12 @@ function GamePage() {
         setShowFinalSuccess(false);
     };
 
-    if (loading) return <div className="game-container">Loading game...</div>;
-
     return (
         <div className="game-page">
+            {loading || loadingFolder || submittingAnswer ? (
+                <div className="overlay-loader">Loading...</div>
+            ) : null}
+
             <h1>Unlock the Secrets!</h1>
 
             {lastAttemptStatus === 'folderUnlocked' && (
@@ -180,6 +188,7 @@ function GamePage() {
                     folderId={selectedFolder}
                     lastAttemptStatus={lastAttemptStatus}
                     showFinalSuccess={showFinalSuccess}
+                    submittingAnswer={submittingAnswer} // ✅
                 />
             )}
         </div>

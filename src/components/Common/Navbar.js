@@ -1,39 +1,53 @@
 // client/src/components/Common/Navbar.js
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import './Navbar.css'; // Optional: for basic styling
+import './Navbar.css';
 
 function Navbar() {
     const { isAuthenticated, user, logout } = useAuth();
+    const [menuOpen, setMenuOpen] = useState(false);
 
     const handleLogout = () => {
         logout();
-        // The useAuth hook's logout function should handle redirecting
-        // or triggering a state update that causes a re-render.
+    };
+
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+    };
+
+    const closeMenu = () => {
+        setMenuOpen(false);
     };
 
     return (
         <nav className="navbar">
             <div className="navbar-brand">
-                <Link to="/">Folder Game</Link>
+                <Link to="/" onClick={closeMenu}>Folder Game</Link>
             </div>
-            <ul className="navbar-links">
-                <li><Link to="/">Home</Link></li>
+
+            <button className="hamburger" onClick={toggleMenu}>
+                <span className="bar"></span>
+                <span className="bar"></span>
+                <span className="bar"></span>
+            </button>
+
+            <ul className={`navbar-links ${menuOpen ? 'active' : ''}`}>
+                <li><Link to="/" onClick={closeMenu}>Home</Link></li>
                 {isAuthenticated ? (
                     <>
-                        <li><Link to="/game">Game</Link></li>
-                        {user?.isAdmin && ( // Only show Admin link if user is an admin
-                            <li><Link to="/admin">Admin</Link></li>
+                        <li><Link to="/game" onClick={closeMenu}>Game</Link></li>
+                        {user?.isAdmin && (
+                            <li><Link to="/admin" onClick={closeMenu}>Admin</Link></li>
                         )}
                         <li>
-                            <button onClick={handleLogout} className="navbar-logout-btn">Logout</button>
+                            <button onClick={() => { handleLogout(); closeMenu(); }} className="navbar-logout-btn">Logout</button>
                         </li>
                     </>
                 ) : (
                     <>
-                        <li><Link to="/login">Login</Link></li>
-                        <li><Link to="/signup">Sign Up</Link></li>
+                        <li><Link to="/login" onClick={closeMenu}>Login</Link></li>
+                        <li><Link to="/signup" onClick={closeMenu}>Sign Up</Link></li>
                     </>
                 )}
             </ul>
