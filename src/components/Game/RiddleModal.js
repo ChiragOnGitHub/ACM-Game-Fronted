@@ -13,6 +13,7 @@ function RiddleModal({
   const [answer, setAnswer] = useState('');
   const [inputError, setInputError] = useState('');
   const [attemptFeedback, setAttemptFeedback] = useState('');
+  const baseURL = process.env.REACT_APP_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,7 +52,7 @@ function RiddleModal({
           <>
             <h2>Riddle: {riddle.question}</h2>
             {riddle.image && (
-              <img src={riddle.image} alt="Riddle Hint" className="riddle-image" />
+              <img src={`${baseURL}/public/${riddle.image}`} alt="Riddle Hint" className="riddle-image" />
             )}
             {inputError && <p className="input-error-message">{inputError}</p>}
             {attemptFeedback && (
