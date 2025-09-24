@@ -1,23 +1,28 @@
 /* client/src/components/Common/Navbar.css */
+
 .navbar {
-    background-color: #282c34;
+    background: linear-gradient(135deg, #f8f9ff 0%, #e8ebf7 50%, #C3C9E5 100%);; /* translucent bluish overlay */
+    backdrop-filter: blur(10px);
     padding: 15px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    margin: 10px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .navbar-brand a {
-    color: #61dafb;
+    color: #4f46e5; /* crisp white logo text */
     font-size: 1.8em;
     font-weight: bold;
     text-decoration: none;
+    letter-spacing: 1px;
     transition: color 0.3s ease;
 }
 
 .navbar-brand a:hover {
-    color: #a0e9ff;
+    color: #a455f8; /* soft pastel blue */
 }
 
 .navbar-links {
@@ -26,35 +31,39 @@
     padding: 0;
     display: flex;
     gap: 25px;
+    align-items: center;
 }
 
 .navbar-links li a {
-    color: white;
+    color: #4f46e5; /* whitish text */
+    font-weight:640;
     text-decoration: none;
-    font-size: 1.1em;
-    padding: 8px 12px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    font-size: 1.05em;
+    padding: 8px 14px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
 }
 
 .navbar-links li a:hover {
-    background-color: #444;
-    color: #61dafb;
+    background: rgba(120, 150, 255, 0.75); /* soft bluish hover */
+    color: #ffffff;
 }
 
+/* Logout button matches palette but stands out */
 .navbar-logout-btn {
-    background-color: #dc3545; /* Red for logout */
+    background: #4f46e5; /* solid indigo */
     color: white;
     border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
+    padding: 8px 14px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 1.1em;
-    transition: background-color 0.3s ease;
+    font-size: 1.05em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .navbar-logout-btn:hover {
-    background-color: #c82333;
+    background: #3730a3; /* darker indigo */
+    transform: scale(1.05);
 }
 
 /* 🔽 Responsive Navbar */
@@ -71,8 +80,8 @@
 
 .hamburger .bar {
     height: 3px;
-    width: 25px;
-    background-color: white;
+    width: 26px;
+    background-color: #fff;
     margin: 4px 0;
     border-radius: 2px;
     transition: 0.3s;
@@ -93,9 +102,10 @@
         flex-direction: column;
         align-items: flex-start;
         display: none;
-        background-color: #282c34;
-        padding: 10px 0;
-        margin-top: 10px;
+        background: rgba(60, 80, 180, 0.4);
+        border-radius: 12px;
+        padding: 12px 0;
+        margin-top: 12px;
     }
 
     .navbar-links.active {
@@ -104,7 +114,7 @@
 
     .navbar-links li {
         width: 100%;
-        padding: 8px 20px;
+        padding: 10px 20px;
     }
 
     .navbar-links li a,
@@ -112,10 +122,11 @@
         width: 100%;
         font-size: 1em;
         text-align: left;
-        padding: 10px 0;
+        padding: 12px 15px;
+        box-sizing: border-box;
     }
 
     .navbar-logout-btn {
-        margin-left: 0;
+        margin: 5px 0;
     }
 }

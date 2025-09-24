@@ -12,12 +12,12 @@ import AdminRoute from './components/Common/AdminRoute'; // Custom for admin
 import { useAuth } from './hooks/useAuth';
 import Navbar from './components/Common/Navbar';
 import { Toaster } from 'react-hot-toast'; // Import Toaster - THIS IS THE FIX!
-
+import Loading from './components/Common/Loading';
 function App() {
-    const { user, loading } = useAuth(); // Access auth state globally
+    const { loading } = useAuth(); // Access auth state globally
 
     if (loading) {
-        return <div>Loading authentication...</div>; // Or a proper spinner
+        return <Loading />; // Or a proper spinner
     }
 
     return (

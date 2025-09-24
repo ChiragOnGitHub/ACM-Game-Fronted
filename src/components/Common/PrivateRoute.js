@@ -2,13 +2,15 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth'; // Your custom auth hook
+import Loading from './Loading';
+
 
 function PrivateRoute({ children }) {
     const { isAuthenticated, loading } = useAuth();
 
     if (loading) {
         // You might want a better loading indicator here
-        return <div>Loading authentication...</div>;
+        return <Loading />;
     }
 
     // If authenticated, render the children (the protected component)

@@ -11,8 +11,8 @@ function GamePage() {
     const [currentRiddle, setCurrentRiddle] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [loadingFolder, setLoadingFolder] = useState(false); // ✅ new
-    const [submittingAnswer, setSubmittingAnswer] = useState(false); // ✅ new
+    const [loadingFolder, setLoadingFolder] = useState(false);
+    const [submittingAnswer, setSubmittingAnswer] = useState(false);
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
     const [lastAttemptStatus, setLastAttemptStatus] = useState(null);
@@ -33,7 +33,6 @@ function GamePage() {
             setFolders(allGameFolders);
 
             const userGameState = await getGameState();
-            // const unlockedIds = userGameState.unlockedFolders.map(uf => uf.folderId._id);
             const unlockedIds = userGameState.unlockedFolders
             .filter(uf => uf.currentRiddleAttempt === null)
             .map(uf => uf.folderId._id);
@@ -54,7 +53,7 @@ function GamePage() {
     };
 
     const handleFolderClick = async (folderId) => {
-        if (loadingFolder) return; // ✅ block repeated clicks
+        if (loadingFolder) return;
         const folderToOpen = folders.find(f => f._id === folderId);
         if (!folderToOpen) {
             setError('Folder not found.');
@@ -67,7 +66,7 @@ function GamePage() {
             return;
         }
 
-        setLoadingFolder(true); // ✅ start loading
+        setLoadingFolder(true);
         setError('');
         setMessage('');
         setLastAttemptStatus(null);
@@ -97,12 +96,12 @@ function GamePage() {
             setIsModalOpen(false);
             setCurrentRiddle(null);
         }
-        setLoadingFolder(false); // ✅ end loading
+        setLoadingFolder(false);
     };
 
     const handleAnswerSubmit = async (folderId, answer) => {
         if (submittingAnswer) return;
-        setSubmittingAnswer(true); // ✅ block resubmit
+        setSubmittingAnswer(true);
         setError('');
         setMessage('');
         setLastAttemptStatus(null);
@@ -115,10 +114,11 @@ function GamePage() {
                 setLastAttemptStatus('folderUnlocked');
                 setShowFinalSuccess(true);
 
+                // Show success feedback for longer before closing
                 setTimeout(async () => {
                     closeModal();
                     await fetchInitialGameData();
-                }, 1200); // ✅ allow animation to play before refreshing
+                }, 2500);
 
                 return 'folder-unlocked';
             } else if (result.nextRiddle) {
@@ -140,7 +140,7 @@ function GamePage() {
                 return 'error';
             }
         } finally {
-            setSubmittingAnswer(false); // ✅ done
+            setSubmittingAnswer(false);
         }
     };
 
@@ -154,17 +154,46 @@ function GamePage() {
         setShowFinalSuccess(false);
     };
 
+    // Enhanced loading screen with different messages based on loading state
+    const getLoadingMessage = () => {
+        if (loading) return { title: "🔐 Initializing Secrets", subtitle: "Preparing your puzzle adventure..." };
+        if (loadingFolder) return { title: "🗂️ Accessing Folder", subtitle: "Decrypting hidden contents..." };
+        if (submittingAnswer) return { title: "⚡ Verifying Answer", subtitle: "Checking your solution..." };
+        return { title: "🔐 Loading", subtitle: "Please wait..." };
+    };
+
+    const loadingMessage = getLoadingMessage();
+
     return (
         <div className="game-page">
-            {loading || loadingFolder || submittingAnswer ? (
-                <div className="overlay-loader">Loading...</div>
-            ) : null}
+            {(loading || loadingFolder || submittingAnswer) && (
+                <div className="overlay-loader">
+                    <div className="loading-content">
+                        <div className="loading-title">{loadingMessage.title}</div>
+                        <div className="loading-subtitle">{loadingMessage.subtitle}</div>
+                        
+                        <div className="lock-container">
+                            <div className="lock-icon">🔓</div>
+                        </div>
+                        
+                        <div className="progress-dots">
+                            <div className="dot"></div>
+                            <div className="dot"></div>
+                            <div className="dot"></div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <h1>Unlock the Secrets!</h1>
 
             {lastAttemptStatus === 'folderUnlocked' && (
                 <div className="popup-overlay">
-                    <div className="popup-success">🎉 Folder Unlocked!</div>
+                    <div className="popup-success">
+                        <div className="success-icon">🎉</div>
+                        <div className="success-title">Folder Unlocked!</div>
+                        <div className="success-subtitle">Excellent work, detective!</div>
+                    </div>
                 </div>
             )}
 
@@ -188,7 +217,7 @@ function GamePage() {
                     folderId={selectedFolder}
                     lastAttemptStatus={lastAttemptStatus}
                     showFinalSuccess={showFinalSuccess}
-                    submittingAnswer={submittingAnswer} // ✅
+                    submittingAnswer={submittingAnswer}
                 />
             )}
         </div>
