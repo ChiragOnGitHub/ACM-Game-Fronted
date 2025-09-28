@@ -10,8 +10,8 @@ function HomePage() {
     return (
         <div className="home-page">
             <header className="home-header">
-                <h1>Welcome to the Folder Game!</h1>
-                <p className="tagline">Unravel the mysteries, unlock the folders, and become the ultimate puzzle solver.</p>
+                <h1>Welcome to the Folder Hunt!</h1>
+                <p className="tagline">Crack the NITT puzzles, unlock the folders, and secure your spot in the offline showdown.</p>
             </header>
 
             <section className="home-cta">
